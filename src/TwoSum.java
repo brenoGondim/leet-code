@@ -1,9 +1,17 @@
+import util.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TwoSum {
     public static void main(String[] args) {
-        System.out.println("hello");
+        long start = System.currentTimeMillis();
+
+        int[] sums = Util.getListOf(100000000);
+        System.out.println(twoSum(sums, 1010));
+
+        long end = System.currentTimeMillis();
+        System.out.println("Tempo: "+(end - start));
     }
     public static int[] twoSum(int[] nums, int target) {
         int targetSum = 0;
