@@ -14,4 +14,16 @@ public class Util {
         }
         return array;
     }
+
+    public static int getSize(int[] data) {
+        int count = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] != 0) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count;
+    }
 }
