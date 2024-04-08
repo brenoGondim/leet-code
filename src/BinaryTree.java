@@ -9,22 +9,26 @@ public class BinaryTree {
 
         Tree tree = new Tree();
         tree.insert(15);
-        tree.insert(10);
+        tree.insert(11);
         tree.insert(20);
         tree.insert(12);
         tree.insert(6);
         tree.insert(18);
         tree.insert(25);
         tree.insert(5);
-        tree.insert(9);
+        tree.insert(10);
         tree.insert(16);
         tree.insert(19);
         tree.insert(30);
         tree.insert(8);
+        tree.insert(9);
         tree.insert(17);
         tree.insert(27);
 
         tree.remove(20);
+        tree.remove(18);
+        tree.remove(11);
+        tree.remove(25);
 
         tree.getTreeInOrderRec();
         //System.out.println(tree.getRoot());
@@ -110,46 +114,57 @@ class Tree {
             present = prev;
             prev = null;
         }
-        if (prev != null) {
-            removeChildless(prev, present);
-            removeOneChild(prev, present);
+        if (prev == null) {
+
         }
 
-        removeTwoChild(prev, present, value);
+        removeChildless(prev, present);
+        removeOneChild(prev, present);
+        removeTwoChild(prev, present);
 
     }
 
-    private void removeTwoChild(Node prev, Node present, int value) {
-        Node biggerNode = getBiggerNodeLeftRec(present, present, value);
-        Node prevBigger = getPrevBiggerRec(present, biggerNode, value);
+    private void removeTwoChild(Node prev, Node present) {
+        Node biggerLeftNode = getBiggerNodeLeftRec(present, present, present.value);
+        Node prevBigger = getPrevBiggerRec(present, biggerLeftNode, present.value);
 
-        removeChildless(prevBigger, biggerNode);
-        removeOneChild(prevBigger, biggerNode);
+        if (present.left != null && present.right != null) {
+            prevBigger.right = biggerLeftNode.left;
+            biggerLeftNode.right = present.right;
+            biggerLeftNode.left = present.left;
 
-        present.value = biggerNode.value;
-        prev.left = present;
+            if (prev == null) {
+                present.value = biggerLeftNode.value;
+                return;
+            }
+            //Aponta o nó anterior no novo nó maior
+            if (present.value < prev.value)
+                prev.left = biggerLeftNode;
+            else
+                prev.right = biggerLeftNode;
+        }
     }
+    void removeOneChild(Node prev, Node present) {
+        if (present.left == null || present.right == null) {
+            if (prev == null)
+                present = null;
 
+            Node swapNode = present.left != null ? present.left : present.right;
+
+            if (present.value < prev.value)
+                prev.left = swapNode;
+            else
+                prev.right = swapNode;
+        }
+    }
     void removeChildless(Node prev, Node present) {
         if (present.left == null && present.right == null) {
+            if (prev == null)
+                present = null;
             if (prev.left == present)
                 prev.left = null;
             if (prev.right == present)
                 prev.right = null;
-        }
-    }
-    void removeOneChild(Node prev, Node present) {
-        if (present.left != null) {
-            if (present.value < prev.value)
-                prev.left = present.left;
-            else
-                prev.right = present.left;
-        }
-        if (present.right != null) {
-            if (present.value < prev.value)
-                prev.left = present.right;
-            else
-                prev.right = present.right;
         }
     }
     Node getPrevNodeRec(Node tempRoot, Node prev, int value) {
