@@ -5,13 +5,25 @@ public class Teste {
 
         //System.out.println(isAnagram("anagram", "nagaram"));
 //        System.out.println(getHash("anagram"));
-        StringBuilder sb = new StringBuilder();
-        sb.append("Hello");
-        sb.append(" ");
-        sb.append("World");
-        String result = sb.toString();
-        System.out.println("SB: "+sb);
+        String vehicles = "Car,Jeep, Wagon   Scooter        Truck, Van";
+        List<String> result = new ArrayList<>(List.of(vehicles.split(",")));
+        List<Integer> numbers = new ArrayList<>(List.of(1, 2, 3, 4, 5));
+
+        // Using stream() - sequential processing
+//        System.out.println("Sequential Stream:");
+//        numbers
+//                .forEach(num -> {
+//                    System.out.println("Processing " + num + " on thread " + Thread.currentThread().getName());
+//                });
+
+        // Using parallelStream() - parallel processing
+        System.out.println("\nParallel Stream:");
+        numbers.parallelStream()
+                .forEach(num -> {
+                    System.out.println("Processing " + num + " on thread " + Thread.currentThread().getName());
+                });
     }
+
 
 
     public static char[] isAnagram(String s, String t) {
